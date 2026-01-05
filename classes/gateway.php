@@ -95,7 +95,9 @@ class gateway extends payment_gateway {
      */
     public static function generate_payment_url(array $config, int $paymentid, float $amount,
         string $useremail, string $itemname = 'Paiement Moodle', ?array $payerinfo = null): moodle_url {
-        global $USER;
+        global $USER, $CFG;
+
+        require_once($CFG->libdir . '/filelib.php');
 
         $debug = get_config('paygw_helloasso', 'debugmode');
 
@@ -302,6 +304,10 @@ class gateway extends payment_gateway {
      * @return string|null Token d'accès ou null en cas d'erreur
      */
     public static function get_helloasso_token() {
+        global $CFG;
+
+        require_once($CFG->libdir . '/filelib.php');
+
         // L'URL API est construire depuis base_url.
         $url = self::get_api_url() . "/oauth2/token";
 
